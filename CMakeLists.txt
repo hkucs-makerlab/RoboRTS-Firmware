@@ -1,7 +1,5 @@
 cmake_minimum_required (VERSION 2.8.12)
 
-file(WRITE flash.jlink loadfile)
-
 # Project specific settings
 set(application_name "standard")
 set(BMI088_DIR ${CMAKE_SOURCE_DIR}/components/bmi088)
@@ -284,14 +282,17 @@ add_custom_target(${hex_file} DEPENDS ${elf_file} COMMAND ${ARM_OBJCOPY_EXECUTAB
 add_custom_target(${bin_file} DEPENDS ${elf_file} COMMAND ${ARM_OBJCOPY_EXECUTABLE} -Obinary ${elf_file} ${bin_file})
 add_custom_target(${application_name} ALL DEPENDS ${elf_file}-size ${bin_file} ${hex_file} ${lss_file})
 #
+file(WRITE flash.jlink 
+	h\n
+	loadfile\ ${hex_file}\n
+	r\n
+	q\n
+)
+
 add_custom_target(flash ALL
-	COMMAND ${CMAKE_COMMAND} -E echo "n" > flash.jlink
-	COMMAND ${CMAKE_COMMAND} -E echo "loadfile ${hex_file}" >> flash.jlink
-	COMMAND ${CMAKE_COMMAND} -E echo "r" >> flash.jlink
-	COMMAND ${CMAKE_COMMAND} -E echo "q" >> flash.jlink
 	COMMAND JLinkExe -device STM32F427II  
 		-if SWD -speed 4000 
-		-CommanderScript flash.jlink
+		-CommanderScript ../flash.jlink
 	DEPENDS ${hex_file}
 )
 add_custom_target(debug
