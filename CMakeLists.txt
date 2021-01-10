@@ -1,5 +1,7 @@
 cmake_minimum_required (VERSION 2.8.12)
 
+file(WRITE flash.jlink loadfile)
+
 # Project specific settings
 set(application_name "standard")
 set(BMI088_DIR ${CMAKE_SOURCE_DIR}/components/bmi088)
@@ -281,4 +283,19 @@ add_custom_target(${lss_file} DEPENDS ${elf_file} COMMAND ${ARM_OBJDUMP_EXECUTAB
 add_custom_target(${hex_file} DEPENDS ${elf_file} COMMAND ${ARM_OBJCOPY_EXECUTABLE} -Oihex ${elf_file} ${hex_file})
 add_custom_target(${bin_file} DEPENDS ${elf_file} COMMAND ${ARM_OBJCOPY_EXECUTABLE} -Obinary ${elf_file} ${bin_file})
 add_custom_target(${application_name} ALL DEPENDS ${elf_file}-size ${bin_file} ${hex_file} ${lss_file})
-
+#
+add_custom_target(flash ALL
+	COMMAND ${CMAKE_COMMAND} -E echo "n" > flash.jlink
+	COMMAND ${CMAKE_COMMAND} -E echo "loadfile ${hex_file}" >> flash.jlink
+	COMMAND ${CMAKE_COMMAND} -E echo "r" >> flash.jlink
+	COMMAND ${CMAKE_COMMAND} -E echo "q" >> flash.jlink
+	COMMAND JLinkExe -device STM32F427II  
+		-if SWD -speed 4000 
+		-CommanderScript flash.jlink
+	DEPENDS ${hex_file}
+)
+add_custom_target(debug
+	COMMAND JLinkGDBServer -select USB -device STM32F427II 
+		-endian little -if SWD -speed 4000 
+		-halt -rtos /opt/SEGGER/JLink/GDBServer/RTOSPlugin_FreeRTOS.so
+)

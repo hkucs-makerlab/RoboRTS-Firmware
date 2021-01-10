@@ -39,3 +39,4 @@ build/*
 MDK-ARM/DebugConfig/*
 MDK-ARM/RTE/*
 .vscode/*
+/flash.jlink
