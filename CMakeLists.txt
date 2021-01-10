@@ -289,7 +289,7 @@ file(WRITE flash.jlink
 	q\n
 )
 
-add_custom_target(flash ALL
+add_custom_target(flash 
 	COMMAND JLinkExe -device STM32F427II  
 		-if SWD -speed 4000 
 		-CommanderScript ../flash.jlink
