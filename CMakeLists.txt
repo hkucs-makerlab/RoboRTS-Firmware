@@ -59,7 +59,7 @@ set(sdk_sources
     bsp/cubemx/Core/Src/rng.c
     bsp/cubemx/Core/Src/spi.c
     bsp/cubemx/Core/Src/stm32f4xx_hal_msp.c
-    bsp/cubemx/Core/Src/stm32f4xx_hal_timebase_tim.c
+    bsp/cubemx/Core/Src/stm32f4xx_hal_timebase_TIM.c
     bsp/cubemx/Core/Src/system_stm32f4xx.c
     bsp/cubemx/Core/Src/tim.c
     bsp/cubemx/Core/Src/usart.c
