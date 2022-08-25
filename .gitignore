@@ -38,4 +38,9 @@ JLinkLog.txt
 build/*
 MDK-ARM/DebugConfig/*
 MDK-ARM/RTE/*
-.vscode/*
+! .vscode/
+**/.vscode/*
+!**/.vscode/tasks.json
+!**/.vscode/settings.json
+!**/.vscode/c_cpp_properties.json
+
