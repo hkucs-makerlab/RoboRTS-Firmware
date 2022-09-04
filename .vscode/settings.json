@@ -1,5 +1,7 @@
 {
     "cmake.configureSettings": {
         "CMAKE_TOOLCHAIN_FILE": "${workspaceFolder}/tools/CMake/GNU-ARM-Toolchain.cmake"
-    }
+
+    },
+    "cmake.generator": "Unix Makefiles"
 }
